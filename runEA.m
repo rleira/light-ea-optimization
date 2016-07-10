@@ -1,4 +1,4 @@
-cargarDatos;
+loadData;
 
 numberOfVariables = problemObj.lumCount * problemObj.nvars;
 
