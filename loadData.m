@@ -139,6 +139,7 @@ problemObj.areaPatch = areaPatch;
 problemObj.lumCount = lumCount;
 problemObj.nvars = nvars;
 problemObj.luminarieLocation = '../OptimizationEngine/hemicubesGenerator/lumOneByOne/';
+problemObj.weightArray = weightArray;
 
 % Low-Rank specific
 lowRankObj.Rmean = Rmean;

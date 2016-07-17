@@ -24,3 +24,19 @@ function mutationChildren = EAMutation(parents, options, nvars, FitnessFcn, stat
     mutationChildren(sub2ind(size(parentsGenomes), [1:parentsLength], randomGene')) = randomGeneValue;
 end
 
+% genomeLength = length(variableMaxValues);
+% 
+% % Get count of elements we need to mutate
+% parentsLength = length(parents);
+% % Get the Genomes we need to mutate
+% parentsGenomes = thisPopulation(parents, :);
+% % Sort a random genes for each Genome we need to mutate
+% 
+% % Set 1 to gene that must be mutated and 0 to others
+% randomGenes = randi([0 1], parentsLength, genomeLength);
+% randomGenesInverse = -(randomGenes-1);
+% % Using randomGenes calculate random values for them
+% mutatedGenes = (floor(rand(parentsLength, genomeLength)*diag(variableMaxValues)) + 1).*randomGenes;
+% 
+% RETURN
+% mutationChildren = parentsGenomes.*randomGenesInverse + mutatedGenes.*randomGenes;

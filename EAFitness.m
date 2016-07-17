@@ -17,7 +17,7 @@ function fitness = EAFitness(thisPopulation, problemObj, lowRankObj, positionObj
         % Calculate E for each genome in the current population
         for VExtrIndex=1:problemObj.lumCount
             lowerLimit = (((VExtrIndex - 1) * problemObj.nvars ) + 1);
-            VExtrAux = VExtr(lowerLimit:lowerLimit+2);
+            VExtrAux = VExtr(lowerLimit:(lowerLimit + (problemObj.nvars - 1)));
 
             % Calculate the emision merging both the view hemicube with the
             % radiance hemicube taken from the luminaire
