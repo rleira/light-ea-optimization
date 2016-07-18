@@ -7,36 +7,21 @@
 % thisScore — Vector of scores of the current population
 % thisPopulation — Matrix of individuals in the current population
 % Other parameters are custom
+% problemObj — Contains the problem definition
 % variableMaxValues — contains the max value for each gene
-function mutationChildren = EAMutation(parents, options, nvars, FitnessFcn, state, thisScore, thisPopulation, variableMaxValues)
-    % Get count of elements we need to mutate
-    parentsLength = length(parents);
-    % Get the Genomes we need to mutate
-    parentsGenomes = thisPopulation(parents, :);
-    % Sort a random gene for each Genome we need to mutate
-    randomGene = randi(length(variableMaxValues), parentsLength, 1);
-    % Get a random value to place on each of the sorted genes
-    randomGeneValue = floor(rand(1, parentsLength).*variableMaxValues(randomGene)) + 1;
+function mutationChildren = EAMutation(parents, options, nvars, FitnessFcn, state, thisScore, thisPopulation, problemObj, variableMaxValues)
+    populationSize = gaoptimget(options, 'PopulationSize');
     
-    % Copy parents and mutate acordingly
-    mutationChildren = parentsGenomes;
+    % For each gene and each individual calculate which gene must be
+    % mutated with a probability of 
+    randomGenes = rand(populationSize, nvars) <= problemObj.MutationFraction;
+    % Calculate matrix with genes that aren't mutated
+    randomGenesInverse = -(randomGenes-1);
+    
+    % Calculate values for mutated genes
+    mutatedGenes = (floor(rand(populationSize, nvars)*diag(variableMaxValues)) + 1).*randomGenes;
+    
     % RETURN
-    mutationChildren(sub2ind(size(parentsGenomes), [1:parentsLength], randomGene')) = randomGeneValue;
+    mutationChildren = thisPopulation.*randomGenesInverse + mutatedGenes.*randomGenes;
+    mutationChildren = mutationChildren(parents, :);
 end
-
-% genomeLength = length(variableMaxValues);
-% 
-% % Get count of elements we need to mutate
-% parentsLength = length(parents);
-% % Get the Genomes we need to mutate
-% parentsGenomes = thisPopulation(parents, :);
-% % Sort a random genes for each Genome we need to mutate
-% 
-% % Set 1 to gene that must be mutated and 0 to others
-% randomGenes = randi([0 1], parentsLength, genomeLength);
-% randomGenesInverse = -(randomGenes-1);
-% % Using randomGenes calculate random values for them
-% mutatedGenes = (floor(rand(parentsLength, genomeLength)*diag(variableMaxValues)) + 1).*randomGenes;
-% 
-% RETURN
-% mutationChildren = parentsGenomes.*randomGenesInverse + mutatedGenes.*randomGenes;
